@@ -1,0 +1,108 @@
+name: Pharma Intelligence — Install Portals
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Single domain to install (leave blank for all uninstalled portals)"
+        required: false
+        default: ""
+      query:
+        description: "Query to use during install (for search discovery)"
+        required: false
+        default: "drug discovery"
+      limit:
+        description: "Max number of portals to install in this run"
+        required: false
+        default: "5"
+      skip_search:
+        description: "Skip Step 1 — search URL discovery (true/false)"
+        required: false
+        default: "false"
+      skip_article:
+        description: "Skip Step 3 — article scraper generation (true/false)"
+        required: false
+        default: "false"
+
+jobs:
+  install-portals:
+    name: Install new portals
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    permissions:
+      contents: write
+
+    env:
+      GROQ_API_KEY:   ${{ secrets.GROQ_API_KEY }}
+      GROQ_API_KEY_1: ${{ secrets.GROQ_API_KEY_1 }}
+      GROQ_API_KEY_2: ${{ secrets.GROQ_API_KEY_2 }}
+      GROQ_API_KEY_3: ${{ secrets.GROQ_API_KEY_3 }}
+      GROQ_API_KEY_4: ${{ secrets.GROQ_API_KEY_4 }}
+      GROQ_API_KEY_5: ${{ secrets.GROQ_API_KEY_5 }}
+      GROQ_API_KEY_6: ${{ secrets.GROQ_API_KEY_6 }}
+      NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright + Chromium
+        run: |
+          playwright install chromium --with-deps
+
+      - name: Run installer
+        run: |
+          URL_ARG=""
+          if [ -n "${{ github.event.inputs.url }}" ]; then
+            URL_ARG="--url ${{ github.event.inputs.url }}"
+          fi
+
+          SKIP_SEARCH_ARG=""
+          if [ "${{ github.event.inputs.skip_search }}" = "true" ]; then
+            SKIP_SEARCH_ARG="--skip-search"
+          fi
+
+          SKIP_ARTICLE_ARG=""
+          if [ "${{ github.event.inputs.skip_article }}" = "true" ]; then
+            SKIP_ARTICLE_ARG="--skip-article"
+          fi
+
+          python run_pipeline.py \
+            --install \
+            --query "${{ github.event.inputs.query }}" \
+            --limit "${{ github.event.inputs.limit }}" \
+            $URL_ARG                                   \
+            $SKIP_SEARCH_ARG                           \
+            $SKIP_ARTICLE_ARG
+        env:
+          GROQ_API_KEY:   ${{ secrets.GROQ_API_KEY }}
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+
+      - name: Commit updated registries
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add search_registry.json extractor_registry.json \
+                  search_engines.py extraction_portals.py || true
+
+          if git diff --staged --quiet; then
+            echo "No new portals installed."
+          else
+            git commit -m "chore: install portals — ${{ github.event.inputs.url || 'batch' }} [skip ci]"
+            git push
+          fi
