@@ -1,0 +1,20 @@
+# ── Web scraping / browser automation ─────────────────────────────────────────
+playwright>=1.40.0
+requests>=2.31.0
+httpx>=0.27.0
+beautifulsoup4>=4.12.0
+lxml>=5.1.0
+cloudscraper>=1.2.71        # Cloudflare bypass
+
+# ── LLM clients ────────────────────────────────────────────────────────────────
+groq>=0.9.0                 # Groq API (install.py, relevance check)
+# nvidia NIM is accessed via raw requests — no SDK needed
+
+# ── Date parsing ───────────────────────────────────────────────────────────────
+python-dateutil>=2.9.0
+dateparser>=1.2.0
+
+# ── Utilities ──────────────────────────────────────────────────────────────────
+tqdm>=4.66.0
+python-dotenv>=1.0.0
+aiohttp>=3.9.0

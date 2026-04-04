@@ -1,0 +1,230 @@
+{
+  "biopharmadive.com": {
+    "domain": "biopharmadive.com",
+    "extract_fn": "extract_biopharmadive_com",
+    "article_fn": null,
+    "search_url": "https://www.biopharmadive.com/search/?q={query}",
+    "base_url": "https://biopharmadive.com",
+    "installed_at": "2026-03-31T16:50:22"
+  },
+  "dddmag.com": {
+    "domain": "dddmag.com",
+    "extract_fn": "extract_dddmag_com",
+    "article_fn": null,
+    "search_url": "https://www.drugdiscoverytrends.com/?s={query}",
+    "base_url": "https://dddmag.com",
+    "installed_at": "2026-03-31T17:19:55"
+  },
+  "statnews.com": {
+    "domain": "statnews.com",
+    "extract_fn": "extract_statnews_com",
+    "article_fn": null,
+    "search_url": "https://www.statnews.com/?s={query}",
+    "base_url": "https://statnews.com",
+    "installed_at": "2026-03-31T17:38:01"
+  },
+  "drug-dev.com": {
+    "domain": "drug-dev.com",
+    "extract_fn": "extract_drug_dev_com",
+    "article_fn": null,
+    "search_url": "https://drug-dev.com/?s={query}",
+    "base_url": "https://drug-dev.com",
+    "installed_at": "2026-03-31T17:55:19"
+  },
+  "drugdiscoverytrends.com": {
+    "domain": "drugdiscoverytrends.com",
+    "extract_fn": "extract_drugdiscoverytrends_com",
+    "search_url": "https://www.drugdiscoverytrends.com/?s={query}",
+    "base_url": "https://drugdiscoverytrends.com",
+    "installed_at": "2026-03-31T21:14:26"
+  },
+  "endpoints.news": {
+    "domain": "endpoints.news",
+    "extract_fn": "extract_endpoints_news",
+    "search_url": "https://endpoints.news/?s=",
+    "base_url": "https://endpoints.news",
+    "installed_at": "2026-03-31T21:32:13"
+  },
+  "globenewswire.com": {
+    "domain": "globenewswire.com",
+    "extract_fn": "extract_globenewswire_com",
+    "search_url": "https://www.globenewswire.com/en/search/keyword/{query}?pageSize=10",
+    "base_url": "https://globenewswire.com",
+    "installed_at": "2026-03-31T21:55:32"
+  },
+  "healio.com": {
+    "domain": "healio.com",
+    "extract_fn": "extract_healio_com",
+    "search_url": "https://www.healio.com/search#q={query}&firstQueryCause=searchFromLink",
+    "base_url": "https://healio.com",
+    "installed_at": "2026-03-31T22:10:13"
+  },
+  "labiotech.eu": {
+    "domain": "labiotech.eu",
+    "extract_fn": "extract_labiotech_eu",
+    "search_url": "https://www.labiotech.eu/?s={query}",
+    "base_url": "https://labiotech.eu",
+    "installed_at": "2026-03-31T22:12:07"
+  },
+  "lifescienceleader.com": {
+    "domain": "lifescienceleader.com",
+    "extract_fn": "extract_lifescienceleader_com",
+    "search_url": "https://www.lifescienceleader.com/search?keyword={query}",
+    "base_url": "https://lifescienceleader.com",
+    "installed_at": "2026-03-31T22:13:51"
+  },
+  "pharmabiz.com": {
+    "domain": "pharmabiz.com",
+    "extract_fn": "extract_pharmabiz_com",
+    "search_url": "https://pharmabiz.com/KeySearches.aspx?Keyword={query}",
+    "base_url": "https://pharmabiz.com",
+    "installed_at": "2026-03-31T23:05:35"
+  },
+  "pharmamanufacturing.com": {
+    "domain": "pharmamanufacturing.com",
+    "extract_fn": "extract_pharmamanufacturing_com",
+    "search_url": "https://www.pharmamanufacturing.com/search?page=1&filters=%7B%22text%22%3A%22{query}%22%2C%22page%22%3A1%2C%22statusText%22%3A%5B%22Published%22%5D%2C%22impliedSchedules%22%3Atrue%7D&sort=score",
+    "base_url": "https://pharmamanufacturing.com",
+    "installed_at": "2026-03-31T23:14:54"
+  },
+  "the-scientist.com": {
+    "domain": "the-scientist.com",
+    "extract_fn": "extract_the_scientist_com",
+    "search_url": "https://www.the-scientist.com/search?term={query}",
+    "base_url": "https://the-scientist.com",
+    "installed_at": "2026-03-31T23:21:20"
+  },
+  "weizmann.ac.il": {
+    "domain": "weizmann.ac.il",
+    "extract_fn": "extract_weizmann_ac_il",
+    "search_url": "https://www.weizmann.ac.il/pages/search/web?search={query}",
+    "base_url": "https://weizmann.ac.il",
+    "installed_at": "2026-03-31T23:23:35"
+  },
+  "www.pharmavoice.com": {
+    "domain": "www.pharmavoice.com",
+    "extract_fn": "extract_www_pharmavoice_com",
+    "search_url": "https://www.pharmavoice.com/search/?q={query}",
+    "base_url": "https://pharmavoice.com",
+    "installed_at": "2026-03-31T23:29:31"
+  },
+  "www.pharmaceutical-technology.com": {
+    "domain": "www.pharmaceutical-technology.com",
+    "extract_fn": "extract_www_pharmaceutical_technology_com",
+    "search_url": "https://www.pharmaceutical-technology.com/s?search={query}",
+    "base_url": "https://pharmaceutical-technology.com",
+    "installed_at": "2026-03-31T23:39:30"
+  },
+  "biopharmatrend.com": {
+    "domain": "biopharmatrend.com",
+    "extract_fn": "extract_biopharmatrend_com",
+    "search_url": "https://www.biopharmatrend.com/search/?q={query}&section=articles",
+    "base_url": "https://biopharmatrend.com",
+    "installed_at": "2026-04-01T00:05:28"
+  },
+  "www.pharma-iq.com": {
+    "domain": "www.pharma-iq.com",
+    "extract_fn": "extract_www_pharma_iq_com",
+    "search_url": "https://www.pharma-iq.com/search?q=",
+    "base_url": "https://pharma-iq.com",
+    "installed_at": "2026-04-01T00:10:08"
+  },
+  "sciencedaily.com": {
+    "domain": "sciencedaily.com",
+    "extract_fn": "extract_sciencedaily_com",
+    "search_url": "https://sciencedaily.com/search/?keyword={query}#gsc.tab=0&gsc.q={query}&gsc.page=1",
+    "base_url": "https://sciencedaily.com",
+    "installed_at": "2026-04-01T00:31:42"
+  },
+  "pharmashots.com": {
+    "domain": "pharmashots.com",
+    "extract_fn": "extract_pharmashots_com",
+    "search_url": "https://pharmashots.com/?post_types=&s={query}",
+    "base_url": "https://pharmashots.com",
+    "installed_at": "2026-04-01T01:06:19"
+  },
+  "koreabiomed.com": {
+    "domain": "www.koreabiomed.com",
+    "extract_fn": "extract_www_koreabiomed_com",
+    "search_url": "https://www.koreabiomed.com/news/articleList.html",
+    "base_url": "https://koreabiomed.com",
+    "installed_at": "2026-04-01T13:13:55"
+  },
+  "drughunter.com": {
+    "domain": "drughunter.com",
+    "extract_fn": "extract_drughunter_com",
+    "search_url": "https://drughunter.com/search?q={query}",
+    "base_url": "https://drughunter.com",
+    "installed_at": "2026-04-01T13:29:48"
+  },
+  "nature.com": {
+    "domain": "nature.com",
+    "extract_fn": "extract_nature_com",
+    "search_url": "https://www.nature.com/siteindex",
+    "base_url": "https://nature.com",
+    "installed_at": "2026-04-01T21:01:13"
+  },
+  "www.pharmaceuticalcommerce.com": {
+    "domain": "www.pharmaceuticalcommerce.com",
+    "extract_fn": "extract_www_pharmaceuticalcommerce_com",
+    "search_url": "https://www.pharmaceuticalcommerce.com/search?searchTerm={query}",
+    "base_url": "https://pharmaceuticalcommerce.com",
+    "installed_at": "2026-04-03T00:11:51"
+  },
+  "biospectrumasia.com": {
+    "domain": "biospectrumasia.com",
+    "extract_fn": "extract_biospectrumasia_com",
+    "search_url": "https://biospectrumasia.com/search/{query}",
+    "base_url": "https://biospectrumasia.com",
+    "installed_at": "2026-04-03T00:36:16"
+  },
+  "asia.nikkei.com": {
+    "domain": "asia.nikkei.com",
+    "extract_fn": "extract_asia_nikkei_com",
+    "search_url": "https://asia.nikkei.com/search?query={query}",
+    "base_url": "https://asia.nikkei.com",
+    "installed_at": "2026-04-03T00:45:51"
+  },
+  "medicalxpress.com": {
+    "domain": "medicalxpress.com",
+    "extract_fn": "extract_medicalxpress_com",
+    "search_url": "https://medicalxpress.com/search/?search={query}",
+    "base_url": "https://medicalxpress.com",
+    "installed_at": "2026-04-03T01:05:42"
+  },
+  "onclive.com": {
+    "domain": "onclive.com",
+    "extract_fn": "extract_onclive_com",
+    "search_url": "https://www.onclive.com/search?searchTerm={query}",
+    "base_url": "https://onclive.com",
+    "installed_at": "2026-04-03T11:33:39"
+  },
+  "www.cancernetwork.com": {
+    "domain": "www.cancernetwork.com",
+    "extract_fn": "extract_www_cancernetwork_com",
+    "search_url": "https://www.cancernetwork.com/search?searchTerm={query}",
+    "base_url": "https://cancernetwork.com",
+    "installed_at": "2026-04-03T11:36:34"
+  },
+  "drugdiscoverynews.com": {
+    "domain": "drugdiscoverynews.com",
+    "extract_fn": "extract_drugdiscoverynews_com",
+    "search_url": "https://www.drugdiscoverynews.com/search?term={query}",
+    "base_url": "https://drugdiscoverynews.com",
+    "installed_at": "2026-04-04T23:00:04"
+  },
+  "fiercebiotech.com": {
+    "domain": "fiercebiotech.com",
+    "extract_fn": "extract_fiercebiotech_com",
+    "search_url": "https://www.fiercebiotech.com/search-results?fulltext_search={query}&dns=fiercehealthcare_com%2Cfiercebiotech_com%2Cfiercepharma_com",
+    "base_url": "https://fiercebiotech.com",
+    "installed_at": "2026-04-05T00:15:42"
+  },
+  "nordiclifescience.org": {
+    "domain": "nordiclifescience.org",
+    "extract_fn": "extract_nordiclifescience_org",
+    "search_url": "https://nordiclifescience.org/?s",
+    "base_url": "https://nordiclifescience.org",
+    "installed_at": "2026-04-04T23:39:11"
+  }
+}
