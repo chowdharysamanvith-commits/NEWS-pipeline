@@ -43,7 +43,6 @@ jobs:
       GROQ_API_KEY_3:     ${{ secrets.GROQ_API_KEY_3 }}
       GROQ_API_KEY_4:     ${{ secrets.GROQ_API_KEY_4 }}
       GROQ_API_KEY_5:     ${{ secrets.GROQ_API_KEY_5 }}
-      GROQ_API_KEY_6:     ${{ secrets.GROQ_API_KEY_6 }}
       NVIDIA_API_KEY:     ${{ secrets.NVIDIA_API_KEY }}
 
       # ── Pipeline defaults (overridden by workflow_dispatch inputs) ────────
