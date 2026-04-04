@@ -1,0 +1,130 @@
+name: Pharma Intelligence — Daily Pipeline
+
+on:
+  schedule:
+    # Runs every day at 06:00 UTC (11:30 IST)
+    - cron: "0 6 * * *"
+
+  # Manual trigger from GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      query:
+        description: "Search query (e.g. monoclonal antibodies, PROTAC, CRISPR)"
+        required: false
+        default: "monoclonal antibodies"
+      days:
+        description: "Date window in days (how far back to scrape)"
+        required: false
+        default: "7"
+      domain:
+        description: "Limit to single domain (leave blank for all)"
+        required: false
+        default: ""
+      no_summarize:
+        description: "Skip summarizer step? (true/false)"
+        required: false
+        default: "false"
+
+jobs:
+  run-pipeline:
+    name: Extract → Merge → Summarize
+    runs-on: ubuntu-latest
+    timeout-minutes: 90          # kill if hung (scraping can stall)
+
+    permissions:
+      contents: write            # needed to git push results back
+
+    env:
+      # ── API Keys (set these in repo Settings → Secrets) ──────────────────
+      # Single Groq key  OR  numbered rotation pool (GROQ_API_KEY_1 … _6)
+      GROQ_API_KEY:       ${{ secrets.GROQ_API_KEY }}
+      GROQ_API_KEY_1:     ${{ secrets.GROQ_API_KEY_1 }}
+      GROQ_API_KEY_2:     ${{ secrets.GROQ_API_KEY_2 }}
+      GROQ_API_KEY_3:     ${{ secrets.GROQ_API_KEY_3 }}
+      GROQ_API_KEY_4:     ${{ secrets.GROQ_API_KEY_4 }}
+      GROQ_API_KEY_5:     ${{ secrets.GROQ_API_KEY_5 }}
+      GROQ_API_KEY_6:     ${{ secrets.GROQ_API_KEY_6 }}
+      NVIDIA_API_KEY:     ${{ secrets.NVIDIA_API_KEY }}
+
+      # ── Pipeline defaults (overridden by workflow_dispatch inputs) ────────
+      PIPELINE_QUERY:     ${{ github.event.inputs.query      || 'monoclonal antibodies' }}
+      PIPELINE_DAYS:      ${{ github.event.inputs.days       || '7' }}
+      PIPELINE_DOMAIN:    ${{ github.event.inputs.domain     || '' }}
+      NO_SUMMARIZE:       ${{ github.event.inputs.no_summarize || 'false' }}
+
+    steps:
+      # ── 1. Checkout ────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0         # full history so we can commit back
+
+      # ── 2. Python setup ────────────────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      # ── 3. Install dependencies ────────────────────────────────────────────
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # ── 4. Install Playwright browsers ─────────────────────────────────────
+      - name: Install Playwright + Chromium
+        run: |
+          playwright install chromium --with-deps
+
+      # ── 5. Run the pipeline ────────────────────────────────────────────────
+      - name: Run extraction pipeline
+        run: |
+          DOMAIN_ARG=""
+          if [ -n "$PIPELINE_DOMAIN" ]; then
+            DOMAIN_ARG="--domain $PIPELINE_DOMAIN"
+          fi
+
+          SUMMARIZE_ARG=""
+          if [ "$NO_SUMMARIZE" = "true" ]; then
+            SUMMARIZE_ARG="--no-summarize"
+          fi
+
+          python run_pipeline.py \
+            --query  "$PIPELINE_QUERY" \
+            --days   "$PIPELINE_DAYS"  \
+            $DOMAIN_ARG                \
+            $SUMMARIZE_ARG
+        env:
+          GROQ_API_KEY:   ${{ secrets.GROQ_API_KEY }}
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+
+      # ── 6. Archive outputs ─────────────────────────────────────────────────
+      - name: Archive outputs as run artifacts
+        uses: actions/upload-artifact@v4
+        if: always()              # upload even if pipeline partially fails
+        with:
+          name: pipeline-output-${{ github.run_number }}
+          path: |
+            extraction_output/
+            data/briefs/
+            data/archive/
+          retention-days: 90
+
+      # ── 7. Commit results back to repo ─────────────────────────────────────
+      - name: Commit pipeline outputs to repo
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Stage only the outputs we care about
+          git add data/ extraction_output/ || true
+
+          # Only commit if there are actual changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit — pipeline produced no new data."
+          else
+            DATE=$(date -u +"%Y-%m-%d")
+            git commit -m "chore: pipeline run ${DATE} — query='${PIPELINE_QUERY}' days=${PIPELINE_DAYS} [skip ci]"
+            git push
+          fi
