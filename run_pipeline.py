@@ -40,10 +40,10 @@ Usage (terminal):
 QUERY            = "monoclonal antibodies"
 DATE_WINDOW_DAYS = 7
 ENRICH_ARTICLES  = True
-OUTPUT_DIR       = "extraction_output"
+OUTPUT_DIR       = os.environ.get("PIPELINE_OUTPUT_DIR", "extraction_output")
 MERGED_FILE      = "merged_articles.json"
-BRIEFS_DIR       = "data/briefs"          # date-stamped briefs committed to repo
-ARCHIVE_DIR      = "data/archive"         # allinone.json snapshots
+BRIEFS_DIR       = os.environ.get("PIPELINE_BRIEFS_DIR", "data/briefs")          # date-stamped briefs committed to repo
+ARCHIVE_DIR      = os.environ.get("PIPELINE_ARCHIVE_DIR", "data/archive")         # allinone.json snapshots
 
 # =============================================================================
 #  IMPORTS
