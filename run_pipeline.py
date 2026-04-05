@@ -177,8 +177,10 @@ def run_summarizer(articles: list, query: str) -> str | None:
                 "Accept": "text/event-stream",
             }
 
-    except ImportError as e:
-        print(f"[summarizer] ERROR: {e}")
+    except Exception as e:
+        import traceback
+        print(f"[summarizer] ERROR importing SUMMARIZER.py: {e}")
+        traceback.print_exc()
         return None
 
     chunks = list(mod.chunk_articles(articles, chunk_size=5))
@@ -256,9 +258,11 @@ async def run_pipeline(
 
         try:
             from install import install as run_install
-        except ImportError:
-            print("  ERROR: install.py not found in working directory.")
-            return
+        except Exception as e:
+            import traceback
+            print(f"  ERROR importing install.py: {e}")
+            traceback.print_exc()
+            raise RuntimeError(f"Failed to import install.py: {e}") from e
 
         await run_install(
             url          = url,
@@ -284,9 +288,11 @@ async def run_pipeline(
 
         try:
             from extraction import main as run_extraction
-        except ImportError:
-            print("  ERROR: extraction.py not found in working directory.")
-            return
+        except Exception as e:
+            import traceback
+            print(f"  ERROR importing extraction.py: {e}")
+            traceback.print_exc()
+            raise RuntimeError(f"Failed to import extraction.py: {e}") from e
 
         await run_extraction(
             query  = query,

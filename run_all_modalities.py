@@ -25,6 +25,35 @@ _repo_root = str(pathlib.Path(__file__).resolve().parent)
 if _repo_root not in sys.path:
     sys.path.insert(0, _repo_root)
 
+# =============================================================================
+#  PRE-FLIGHT CHECK — fail fast with a clear message if files are missing
+# =============================================================================
+
+REQUIRED_FILES = [
+    "extraction.py",
+    "extraction_portals.py",
+    "search_engines.py",
+    "run_pipeline.py",
+    "SUMMARIZER.py",
+    "extractor_registry.json",
+    "search_registry.json",
+    "_stealth_constants.py",   # local stealth module used by extraction + discovery
+]
+
+def preflight_check():
+    missing = [f for f in REQUIRED_FILES if not pathlib.Path(f).exists()]
+    if missing:
+        print("\n[preflight] MISSING FILES — pipeline cannot start:")
+        for f in missing:
+            print(f"  ✗  {f}")
+        print("\n  These files must be committed to the repo root.")
+        sys.exit(1)
+    else:
+        print("[preflight] All required files present ✓")
+
+preflight_check()
+
+
 from run_pipeline import run_pipeline
 
 # =============================================================================
