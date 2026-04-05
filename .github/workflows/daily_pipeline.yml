@@ -19,7 +19,7 @@ jobs:
   run-pipeline:
     name: Extract → Merge → Summarize (all modalities)
     runs-on: ubuntu-latest
-    timeout-minutes: 180     # 4 modalities × ~40min each
+    timeout-minutes: 180
 
     permissions:
       contents: write
@@ -41,34 +41,51 @@ jobs:
       PIPELINE_DAYS:      ${{ github.event.inputs.days || '7' }}
 
     steps:
+      # ✅ Checkout with push permissions
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: true
 
+      # ✅ Python setup
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
 
+      # ✅ Install dependencies
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # ✅ Install Playwright
       - name: Install Playwright + Chromium
         run: playwright install chromium --with-deps
 
+      # ✅ Debug environment
       - name: Verify repo files visible to Python
         run: |
           echo "Working directory: $(pwd)"
-          ls -1 *.py *.json 2>/dev/null || echo "(no .py/.json at root)"
+          ls -R
           echo "PYTHONPATH: $PYTHONPATH"
 
+      # ✅ Run pipeline
       - name: Run all modalities
         run: python run_all_modalities.py
 
+      # ✅ Debug outputs (VERY IMPORTANT)
+      - name: Debug outputs
+        run: |
+          echo "==== extraction_output ===="
+          ls -R extraction_output || echo "No extraction_output"
+
+          echo "==== data ===="
+          ls -R data || echo "No data"
+
+      # ✅ Save artifacts (optional but good)
       - name: Archive all outputs
         uses: actions/upload-artifact@v4
         if: always()
@@ -76,17 +93,26 @@ jobs:
           name: pipeline-output-${{ github.run_number }}
           path: |
             data/
+            extraction_output/
           retention-days: 90
 
+      # ✅ FIXED COMMIT STEP (MAIN SOLUTION)
       - name: Commit results to repo
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/ || true
+
+          # 🔥 ADD ALL GENERATED FILES
+          git add data/ extraction_output/ logs/ || true
+
+          echo "==== GIT STATUS ===="
+          git status
+
+          # Commit only if there are changes
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
             DATE=$(date -u +"%Y-%m-%d")
-            git commit -m "chore: daily pipeline ${DATE} — all 4 modalities [skip ci]"
+            git commit -m "chore: daily pipeline ${DATE} — all modalities [skip ci]"
             git push
           fi
