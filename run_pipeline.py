@@ -50,6 +50,13 @@ ARCHIVE_DIR      = "data/archive"         # allinone.json snapshots
 # =============================================================================
 
 import argparse, asyncio, json, os, time, logging
+
+# ── Ensure repo root is always on sys.path so local imports work in Actions ──
+import sys as _sys, pathlib as _pathlib
+_repo_root = str(_pathlib.Path(__file__).resolve().parent)
+if _repo_root not in _sys.path:
+    _sys.path.insert(0, _repo_root)
+
 from datetime import datetime, timezone
 from pathlib import Path
 
