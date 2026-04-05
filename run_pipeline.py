@@ -34,7 +34,23 @@ Usage (terminal):
 """
 
 # =============================================================================
-#  CONFIG
+#  IMPORTS  (must come before CONFIG so os is available)
+# =============================================================================
+
+import argparse, asyncio, json, os, sys, time, logging, pathlib
+from datetime import datetime, timezone
+from pathlib import Path
+
+# ── Ensure repo root is always on sys.path so local imports work in Actions ──
+_repo_root = str(pathlib.Path(__file__).resolve().parent)
+if _repo_root not in sys.path:
+    sys.path.insert(0, _repo_root)
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+log = logging.getLogger(__name__)
+
+# =============================================================================
+#  CONFIG  (uses os — must come after imports)
 # =============================================================================
 
 QUERY            = "monoclonal antibodies"
@@ -42,26 +58,8 @@ DATE_WINDOW_DAYS = 7
 ENRICH_ARTICLES  = True
 OUTPUT_DIR       = os.environ.get("PIPELINE_OUTPUT_DIR", "extraction_output")
 MERGED_FILE      = "merged_articles.json"
-BRIEFS_DIR       = os.environ.get("PIPELINE_BRIEFS_DIR", "data/briefs")          # date-stamped briefs committed to repo
-ARCHIVE_DIR      = os.environ.get("PIPELINE_ARCHIVE_DIR", "data/archive")         # allinone.json snapshots
-
-# =============================================================================
-#  IMPORTS
-# =============================================================================
-
-import argparse, asyncio, json, os, time, logging
-
-# ── Ensure repo root is always on sys.path so local imports work in Actions ──
-import sys as _sys, pathlib as _pathlib
-_repo_root = str(_pathlib.Path(__file__).resolve().parent)
-if _repo_root not in _sys.path:
-    _sys.path.insert(0, _repo_root)
-
-from datetime import datetime, timezone
-from pathlib import Path
-
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-log = logging.getLogger(__name__)
+BRIEFS_DIR       = os.environ.get("PIPELINE_BRIEFS_DIR",  "data/briefs")
+ARCHIVE_DIR      = os.environ.get("PIPELINE_ARCHIVE_DIR", "data/archive")
 
 # =============================================================================
 #  ENV KEY INJECTION
