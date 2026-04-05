@@ -68,22 +68,22 @@ MODALITIES = [
     {
         "slug":    "bispecific_antibodies",
         "label":   "Bispecific Antibodies",
-        "query":   "bispecific antibodies BiTE T-cell engager bsAb",
+        "query":   "bispecific antibodies",
     },
     {
         "slug":    "monoclonal_antibodies",
         "label":   "Monoclonal Antibodies",
-        "query":   "monoclonal antibodies mAb therapeutic antibody",
+        "query":   "monoclonal antibodies",
     },
     {
         "slug":    "molecular_glues",
         "label":   "Molecular Glues",
-        "query":   "molecular glue degrader TPD E3 ligase IKZF",
+        "query":   "molecular glue",
     },
     {
         "slug":    "gene_editing",
         "label":   "Gene Editing",
-        "query":   "CRISPR Cas9 gene editing base editing prime editing",
+        "query":   "CRISPR Gene Editing",
     },
 ]
 
