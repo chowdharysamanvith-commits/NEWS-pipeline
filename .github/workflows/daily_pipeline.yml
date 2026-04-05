@@ -6,18 +6,10 @@ on:
 
   workflow_dispatch:
     inputs:
-      query:
-        description: "Search query"
-        required: false
-        default: "monoclonal antibodies"
       days:
         description: "Date window in days"
         required: false
         default: "7"
-      domain:
-        description: "Single domain only (blank = all)"
-        required: false
-        default: ""
       no_summarize:
         description: "Skip summarizer? (true/false)"
         required: false
@@ -25,9 +17,9 @@ on:
 
 jobs:
   run-pipeline:
-    name: Extract → Merge → Summarize
+    name: Extract → Merge → Summarize (all modalities)
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 180     # 4 modalities × ~40min each
 
     permissions:
       contents: write
@@ -46,10 +38,7 @@ jobs:
       GROQ_API_KEY_6:     ${{ secrets.GROQ_API_KEY_6 }}
       NVIDIA_API_KEY:     ${{ secrets.NVIDIA_API_KEY }}
       PYTHONPATH:         ${{ github.workspace }}
-      PIPELINE_QUERY:     ${{ github.event.inputs.query      || 'monoclonal antibodies' }}
-      PIPELINE_DAYS:      ${{ github.event.inputs.days       || '7' }}
-      PIPELINE_DOMAIN:    ${{ github.event.inputs.domain     || '' }}
-      NO_SUMMARIZE:       ${{ github.event.inputs.no_summarize || 'false' }}
+      PIPELINE_DAYS:      ${{ github.event.inputs.days || '7' }}
 
     steps:
       - name: Checkout repository
@@ -71,51 +60,33 @@ jobs:
       - name: Install Playwright + Chromium
         run: playwright install chromium --with-deps
 
-      - name: Verify files visible to Python
+      - name: Verify repo files visible to Python
         run: |
           echo "Working directory: $(pwd)"
-          echo "Files present:"
-          ls -1 *.py *.json 2>/dev/null || echo "(none)"
+          ls -1 *.py *.json 2>/dev/null || echo "(no .py/.json at root)"
           echo "PYTHONPATH: $PYTHONPATH"
 
-      - name: Run extraction pipeline
-        run: |
-          DOMAIN_ARG=""
-          if [ -n "$PIPELINE_DOMAIN" ]; then
-            DOMAIN_ARG="--domain $PIPELINE_DOMAIN"
-          fi
+      - name: Run all modalities
+        run: python run_all_modalities.py
 
-          SUMMARIZE_ARG=""
-          if [ "$NO_SUMMARIZE" = "true" ]; then
-            SUMMARIZE_ARG="--no-summarize"
-          fi
-
-          python run_pipeline.py \
-            --query  "$PIPELINE_QUERY" \
-            --days   "$PIPELINE_DAYS"  \
-            $DOMAIN_ARG                \
-            $SUMMARIZE_ARG
-
-      - name: Archive outputs
+      - name: Archive all outputs
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: pipeline-output-${{ github.run_number }}
           path: |
-            extraction_output/
-            data/briefs/
-            data/archive/
+            data/
           retention-days: 90
 
       - name: Commit results to repo
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/ extraction_output/ || true
+          git add data/ || true
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
             DATE=$(date -u +"%Y-%m-%d")
-            git commit -m "chore: pipeline run ${DATE} — query='${PIPELINE_QUERY}' days=${PIPELINE_DAYS} [skip ci]"
+            git commit -m "chore: daily pipeline ${DATE} — all 4 modalities [skip ci]"
             git push
           fi
