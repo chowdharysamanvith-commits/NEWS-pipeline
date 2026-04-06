@@ -1,0 +1,66 @@
+{
+  "dddmag.com": {
+    "name": "Dddmag",
+    "reason": "0 articles in last 7 days"
+  },
+  "statnews.com": {
+    "name": "Statnews",
+    "reason": "0 articles in last 7 days"
+  },
+  "drug-dev.com": {
+    "name": "Drug-dev",
+    "reason": "0 articles in last 7 days"
+  },
+  "drugdiscoverytrends.com": {
+    "name": "Drugdiscoverytrends",
+    "reason": "0 articles in last 7 days"
+  },
+  "healio.com": {
+    "name": "Healio",
+    "reason": "0 articles in last 7 days"
+  },
+  "labiotech.eu": {
+    "name": "Labiotech",
+    "reason": "0 articles in last 7 days"
+  },
+  "pharmamanufacturing.com": {
+    "name": "Pharmamanufacturing",
+    "reason": "0 articles in last 7 days"
+  },
+  "weizmann.ac.il": {
+    "name": "Weizmann",
+    "reason": "0 articles in last 7 days"
+  },
+  "www.pharmavoice.com": {
+    "name": "Www",
+    "reason": "0 articles in last 7 days"
+  },
+  "www.pharmaceutical-technology.com": {
+    "name": "Www",
+    "reason": "0 articles in last 7 days"
+  },
+  "biopharmatrend.com": {
+    "name": "Biopharmatrend",
+    "reason": "0 articles in last 7 days"
+  },
+  "sciencedaily.com": {
+    "name": "Sciencedaily",
+    "reason": "0 articles in last 7 days"
+  },
+  "drughunter.com": {
+    "name": "Drughunter",
+    "reason": "extract_fn returned 0 articles after scrolling"
+  },
+  "www.pharmaceuticalcommerce.com": {
+    "name": "Www",
+    "reason": "0 articles in last 7 days"
+  },
+  "asia.nikkei.com": {
+    "name": "Asia",
+    "reason": "0 articles in last 7 days"
+  },
+  "medicalxpress.com": {
+    "name": "Medicalxpress",
+    "reason": "extract_fn returned 0 articles after scrolling"
+  }
+}
