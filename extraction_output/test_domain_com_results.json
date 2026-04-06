@@ -1,0 +1,17 @@
+{
+  "2026-04": {
+    "article_count": 2,
+    "articles": [
+      {
+        "title": "Test article 1",
+        "url": "https://example.com/1",
+        "date": "2026-04-05"
+      },
+      {
+        "title": "Test article 2",
+        "url": "https://example.com/2",
+        "date": "2026-04-04"
+      }
+    ]
+  }
+}
