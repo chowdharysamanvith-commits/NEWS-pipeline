@@ -21,8 +21,6 @@ env/
 # Playwright
 playwright/.local-browsers/
 
-# Extraction output (large, committed via Actions only)
-extraction_output/*.json
 
 # Keep the directory itself
 !extraction_output/.gitkeep
