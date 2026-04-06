@@ -72,22 +72,7 @@ MODALITIES = [
         "slug":  "bispecific_antibodies",
         "label": "Bispecific Antibodies",
         "query": "bispecific antibodies",
-    },
-    {
-        "slug":  "monoclonal_antibodies",
-        "label": "Monoclonal Antibodies",
-        "query": "monoclonal antibodies",
-    },
-    {
-        "slug":  "molecular_glues",
-        "label": "Molecular Glues",
-        "query": "molecular glue",
-    },
-    {
-        "slug":  "gene_editing",
-        "label": "Gene Editing",
-        "query": "CRISPR Gene Editing",
-    },
+    }
 ]
 
 DATE_WINDOW_DAYS = int(os.environ.get("PIPELINE_DAYS", "7"))
