@@ -29,7 +29,6 @@ jobs:
         working-directory: ${{ github.workspace }}
 
     env:
-      GROQ_API_KEY:       ${{ secrets.GROQ_API_KEY }}
       GROQ_API_KEY_1:     ${{ secrets.GROQ_API_KEY_1 }}
       GROQ_API_KEY_2:     ${{ secrets.GROQ_API_KEY_2 }}
       GROQ_API_KEY_3:     ${{ secrets.GROQ_API_KEY_3 }}
