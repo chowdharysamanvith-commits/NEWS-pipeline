@@ -3,7 +3,6 @@ name: Pharma Intelligence — Daily Pipeline
 on:
   schedule:
     - cron: "0 6 * * *"    # 06:00 UTC daily (11:30 IST)
-
   workflow_dispatch:
     inputs:
       days:
@@ -22,96 +21,136 @@ jobs:
     timeout-minutes: 180
 
     permissions:
-      contents: write
+      contents: write       # ← required to git push back to repo
 
     defaults:
       run:
         working-directory: ${{ github.workspace }}
 
     env:
-      GROQ_API_KEY_1:     ${{ secrets.GROQ_API_KEY_1 }}
-      GROQ_API_KEY_2:     ${{ secrets.GROQ_API_KEY_2 }}
-      GROQ_API_KEY_3:     ${{ secrets.GROQ_API_KEY_3 }}
-      GROQ_API_KEY_4:     ${{ secrets.GROQ_API_KEY_4 }}
-      GROQ_API_KEY_5:     ${{ secrets.GROQ_API_KEY_5 }}
-      GROQ_API_KEY_6:     ${{ secrets.GROQ_API_KEY_6 }}
-      NVIDIA_API_KEY:     ${{ secrets.NVIDIA_API_KEY }}
-      PYTHONPATH:         ${{ github.workspace }}
-      PIPELINE_DAYS:      ${{ github.event.inputs.days || '7' }}
+      GROQ_API_KEY_1:  ${{ secrets.GROQ_API_KEY_1 }}
+      GROQ_API_KEY_2:  ${{ secrets.GROQ_API_KEY_2 }}
+      GROQ_API_KEY_3:  ${{ secrets.GROQ_API_KEY_3 }}
+      GROQ_API_KEY_4:  ${{ secrets.GROQ_API_KEY_4 }}
+      GROQ_API_KEY_5:  ${{ secrets.GROQ_API_KEY_5 }}
+      GROQ_API_KEY_6:  ${{ secrets.GROQ_API_KEY_6 }}
+      NVIDIA_API_KEY:  ${{ secrets.NVIDIA_API_KEY }}
+      PYTHONPATH:      ${{ github.workspace }}
+      PIPELINE_DAYS:   ${{ github.event.inputs.days || '7' }}
 
     steps:
-      # ✅ Checkout with push permissions
+
+      # ── 1. Checkout ──────────────────────────────────────────────────────────
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          persist-credentials: true
+          persist-credentials: true   # keeps the token for the later git push
 
-      # ✅ Python setup
+      # ── 2. Python ────────────────────────────────────────────────────────────
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
 
-      # ✅ Install dependencies
+      # ── 3. Dependencies ──────────────────────────────────────────────────────
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ✅ Install Playwright
+      # ── 4. Playwright ────────────────────────────────────────────────────────
       - name: Install Playwright + Chromium
         run: playwright install chromium --with-deps
 
-      # ✅ Debug environment
-      - name: Verify repo files visible to Python
+      # ── 5. Pre-run sanity check ──────────────────────────────────────────────
+      - name: Verify workspace before run
         run: |
-          echo "Working directory: $(pwd)"
-          ls -R
-          echo "PYTHONPATH: $PYTHONPATH"
+          echo "=== Working directory ==="
+          pwd
+          echo "=== Repo root files ==="
+          ls -la $GITHUB_WORKSPACE
+          echo "=== extraction_output before run ==="
+          ls -la $GITHUB_WORKSPACE/extraction_output/ || echo "(empty / does not exist)"
+          echo "=== PYTHONPATH ==="
+          echo $PYTHONPATH
 
-      # ✅ Run pipeline
+      # ── 6. Run pipeline ──────────────────────────────────────────────────────
       - name: Run all modalities
         run: python run_all_modalities.py
 
-      # ✅ Debug outputs (VERY IMPORTANT)
-      - name: Debug outputs
+      # ── 7. Post-run debug — confirm files were written ───────────────────────
+      - name: Debug outputs after run
+        if: always()    # run even if pipeline step failed
         run: |
-          echo "==== extraction_output ===="
-          ls -R extraction_output || echo "No extraction_output"
+          echo "=== ALL JSON files written anywhere under workspace ==="
+          find $GITHUB_WORKSPACE -name "*.json" | sort
+          echo ""
+          echo "=== extraction_output/ contents ==="
+          ls -lh $GITHUB_WORKSPACE/extraction_output/ || echo "(directory missing)"
+          echo ""
+          echo "=== data/ contents ==="
+          ls -lh $GITHUB_WORKSPACE/data/ || echo "(directory missing)"
+          echo ""
+          echo "=== Any *_results.json files ==="
+          find $GITHUB_WORKSPACE -name "*_results.json" | sort || echo "none found"
 
-          echo "==== data ===="
-          ls -R data || echo "No data"
-
-      # ✅ Save artifacts (optional but good)
-      - name: Archive all outputs
+      # ── 8. Upload artifacts (always, so you can inspect even on failure) ─────
+      - name: Archive pipeline outputs
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: pipeline-output-${{ github.run_number }}
           path: |
-            data/
-            extraction_output/
+            ${{ github.workspace }}/data/
+            ${{ github.workspace }}/extraction_output/
           retention-days: 90
 
-      # ✅ FIXED COMMIT STEP (MAIN SOLUTION)
+      # ── 9. Commit results back to repo ───────────────────────────────────────
+      #
+      #   KEY FIXES vs the old step:
+      #     • Explicit absolute paths ($GITHUB_WORKSPACE/...) so git never
+      #       misses files written by Python to a relative path.
+      #     • `git add -f` to force-add files that may be in .gitignore
+      #       (extraction_output/*.json is commonly gitignored).
+      #     • `|| true` on every add so a missing dir never aborts the step.
+      #     • Empty-dir guard: create placeholder .gitkeep so git tracks the
+      #       folder even when all *_results.json were "empty" runs.
+      #
       - name: Commit results to repo
+        if: always()    # commit whatever exists, even partial results
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # 🔥 ADD ALL GENERATED FILES
-          git add data/ extraction_output/ logs/ || true
+          # Make sure the output directories exist so git add never errors
+          mkdir -p $GITHUB_WORKSPACE/extraction_output
+          mkdir -p $GITHUB_WORKSPACE/data
+          mkdir -p $GITHUB_WORKSPACE/logs
 
-          echo "==== GIT STATUS ===="
+          # Keep folders trackable even when empty
+          touch $GITHUB_WORKSPACE/extraction_output/.gitkeep
+          touch $GITHUB_WORKSPACE/data/.gitkeep
+          touch $GITHUB_WORKSPACE/logs/.gitkeep
+
+          # Force-add (-f bypasses .gitignore for these paths)
+          git add -f $GITHUB_WORKSPACE/extraction_output/ || true
+          git add -f $GITHUB_WORKSPACE/data/              || true
+          git add -f $GITHUB_WORKSPACE/logs/              || true
+
+          echo "=== GIT STATUS ==="
           git status
 
-          # Commit only if there are changes
+          echo "=== GIT DIFF STAGED (file list) ==="
+          git diff --staged --name-only
+
+          # Only commit if something actually changed
           if git diff --staged --quiet; then
-            echo "No changes to commit."
+            echo "No changes to commit — outputs unchanged since last run."
           else
-            DATE=$(date -u +"%Y-%m-%d")
-            git commit -m "chore: daily pipeline ${DATE} — all modalities [skip ci]"
-            git push
+            DATE=$(date -u +"%Y-%m-%d %H:%M UTC")
+            git commit -m "chore: pipeline results ${DATE} [skip ci]"
+            git push origin HEAD
+            echo "Pushed successfully."
           fi
