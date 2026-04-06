@@ -10,11 +10,18 @@ Output structure:
       YYYY-MM-DD_summary.md
       YYYY-MM-DD_articles.json
     monoclonal_antibodies/
-      YYYY-MM-DD_summary.md
       ...
     molecular_glues/
       ...
     gene_editing/
+      ...
+
+  extraction_output/
+    bispecific_antibodies/
+      fiercebiotech_com_results.json
+      ...
+      merged_articles.json
+    monoclonal_antibodies/
       ...
 """
 
@@ -37,7 +44,7 @@ REQUIRED_FILES = [
     "SUMMARIZER.py",
     "extractor_registry.json",
     "search_registry.json",
-    "_stealth_constants.py",   # local stealth module used by extraction + discovery
+    "_stealth_constants.py",
 ]
 
 def preflight_check():
@@ -48,46 +55,68 @@ def preflight_check():
             print(f"  ✗  {f}")
         print("\n  These files must be committed to the repo root.")
         sys.exit(1)
-    else:
-        print("[preflight] All required files present ✓")
+    print("[preflight] All required files present ✓")
 
 preflight_check()
 
-
-from run_pipeline import run_pipeline
+# Import both modules NOW so we can patch their globals reliably
+import run_pipeline as rp
+import extraction   as ex
 
 # =============================================================================
 #  MODALITY DEFINITIONS
-#  Each entry:
-#    slug     → folder name under data/ and extraction_output/
-#    query    → what gets sent to every portal's search box
-#    keywords → extra search terms (comma-separated, passed as query variants)
 # =============================================================================
 
 MODALITIES = [
     {
-        "slug":    "bispecific_antibodies",
-        "label":   "Bispecific Antibodies",
-        "query":   "bispecific antibodies",
+        "slug":  "bispecific_antibodies",
+        "label": "Bispecific Antibodies",
+        "query": "bispecific antibodies",
     },
     {
-        "slug":    "monoclonal_antibodies",
-        "label":   "Monoclonal Antibodies",
-        "query":   "monoclonal antibodies",
+        "slug":  "monoclonal_antibodies",
+        "label": "Monoclonal Antibodies",
+        "query": "monoclonal antibodies",
     },
     {
-        "slug":    "molecular_glues",
-        "label":   "Molecular Glues",
-        "query":   "molecular glue",
+        "slug":  "molecular_glues",
+        "label": "Molecular Glues",
+        "query": "molecular glue",
     },
     {
-        "slug":    "gene_editing",
-        "label":   "Gene Editing",
-        "query":   "CRISPR Gene Editing",
+        "slug":  "gene_editing",
+        "label": "Gene Editing",
+        "query": "CRISPR Gene Editing",
     },
 ]
 
 DATE_WINDOW_DAYS = int(os.environ.get("PIPELINE_DAYS", "7"))
+
+
+def _patch_output_dir(output_dir: str, briefs_dir: str) -> None:
+    """
+    Patch OUTPUT_DIR in EVERY module that uses it so they all
+    read from and write to the same per-modality folder.
+
+    The bug was that run_pipeline.OUTPUT_DIR was patched but
+    extraction.OUTPUT_DIR was not — so extraction wrote files to
+    'extraction_output/' while merge looked in
+    'extraction_output/<slug>/' and found nothing.
+    """
+    # run_pipeline uses OUTPUT_DIR for merge_results() and BRIEF_FILE path
+    rp.OUTPUT_DIR   = output_dir
+    rp.BRIEFS_DIR   = briefs_dir
+    rp.ARCHIVE_DIR  = briefs_dir
+
+    # extraction uses OUTPUT_DIR to write *_results.json and empty/failed.json
+    ex.OUTPUT_DIR   = output_dir
+
+    # Make sure both directories exist before the run starts
+    pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
+    pathlib.Path(briefs_dir).mkdir(parents=True, exist_ok=True)
+
+    print(f"[patch] extraction_output → {output_dir}")
+    print(f"[patch] briefs/data       → {briefs_dir}")
 
 
 async def run_all():
@@ -98,41 +127,44 @@ async def run_all():
         label = m["label"]
         query = m["query"]
 
+        output_dir = f"extraction_output/{slug}"
+        briefs_dir = f"data/{slug}"
+
         print(f"\n{'#'*65}")
-        print(f"  MODALITY: {label}")
-        print(f"  Slug    : {slug}")
-        print(f"  Query   : {query!r}")
+        print(f"  MODALITY : {label}")
+        print(f"  Slug     : {slug}")
+        print(f"  Query    : {query!r}")
+        print(f"  Out dir  : {output_dir}")
         print(f"{'#'*65}\n")
 
-        # Each modality gets its own extraction_output subfolder
-        # so domains don't overwrite each other across modalities
-        output_dir  = f"extraction_output/{slug}"
-        briefs_dir  = f"data/{slug}"
-
-        pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
-        pathlib.Path(briefs_dir).mkdir(parents=True, exist_ok=True)
-
-        # Patch the globals in run_pipeline so it writes to the right folders
-        import run_pipeline as rp
-        rp.OUTPUT_DIR = output_dir
-        rp.BRIEFS_DIR = briefs_dir
-        rp.ARCHIVE_DIR = briefs_dir  # keep articles alongside brief
+        # ── Patch BOTH modules before every modality run ──────────────────
+        _patch_output_dir(output_dir, briefs_dir)
 
         try:
-            await run_pipeline(
+            await rp.run_pipeline(
                 query     = query,
                 days      = DATE_WINDOW_DAYS,
                 summarize = True,
             )
             results[slug] = "ok"
             print(f"\n[all_modalities] {label} — DONE")
+
         except Exception as e:
             results[slug] = f"ERROR: {e}"
             print(f"\n[all_modalities] {label} — FAILED: {e}")
-            # Continue to next modality instead of aborting everything
             continue
 
-    # ── Final summary ─────────────────────────────────────────────────────────
+        # ── Verify files were actually written (helps catch silent failures) ─
+        written = list(pathlib.Path(output_dir).glob("*_results.json"))
+        merged  = pathlib.Path(output_dir) / "merged_articles.json"
+        print(f"[verify] {len(written)} *_results.json files in {output_dir}/")
+        print(f"[verify] merged_articles.json exists: {merged.exists()}")
+        if merged.exists():
+            import json
+            data = json.loads(merged.read_text(encoding="utf-8"))
+            print(f"[verify] total_articles in merged: {data.get('total_articles', '?')}")
+
+    # ── Final summary ──────────────────────────────────────────────────────
     print(f"\n{'='*65}")
     print("  ALL MODALITIES COMPLETE")
     print(f"{'='*65}")
@@ -142,7 +174,7 @@ async def run_all():
 
     failed = [s for s, r in results.items() if r != "ok"]
     if failed:
-        print(f"\n[all_modalities] {len(failed)} modality(s) failed — check logs above.")
+        print(f"\n[all_modalities] {len(failed)} modality(s) failed.")
         sys.exit(1)
 
 
