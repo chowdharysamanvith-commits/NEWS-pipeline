@@ -1,0 +1,184 @@
+name: Diagnose Pipeline — File Write Trace
+
+on:
+  workflow_dispatch:   # run manually from Actions tab
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    env:
+      GROQ_API_KEY_1:  ${{ secrets.GROQ_API_KEY_1 }}
+      GROQ_API_KEY_2:  ${{ secrets.GROQ_API_KEY_2 }}
+      GROQ_API_KEY_3:  ${{ secrets.GROQ_API_KEY_3 }}
+      GROQ_API_KEY_4:  ${{ secrets.GROQ_API_KEY_4 }}
+      GROQ_API_KEY_5:  ${{ secrets.GROQ_API_KEY_5 }}
+      GROQ_API_KEY_6:  ${{ secrets.GROQ_API_KEY_6 }}
+      NVIDIA_API_KEY:  ${{ secrets.NVIDIA_API_KEY }}
+      PYTHONPATH:      ${{ github.workspace }}
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Install Playwright
+        run: playwright install chromium --with-deps
+
+      # ── DIAGNOSTIC 1: What does Python think its cwd is? ──────────────────
+      - name: Python cwd check
+        run: |
+          python - <<'EOF'
+          import os, sys
+          from pathlib import Path
+
+          print("=== sys.argv[0]         :", sys.argv[0])
+          print("=== os.getcwd()         :", os.getcwd())
+          print("=== __file__ (script)   :", Path(sys.argv[0]).resolve())
+          print("=== GITHUB_WORKSPACE env:", os.environ.get("GITHUB_WORKSPACE","NOT SET"))
+
+          # Does extraction_output exist right now?
+          p = Path("extraction_output")
+          print("=== extraction_output exists:", p.exists())
+          if p.exists():
+              print("=== contents:", list(p.iterdir()))
+          EOF
+
+      # ── DIAGNOSTIC 2: Write a test file the same way extraction.py does ───
+      - name: Write test file (mimics extraction.py save logic)
+        run: |
+          python - <<'EOF'
+          import os, json
+          from pathlib import Path
+
+          OUTPUT_DIR = "extraction_output"
+          os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+          # Exact same code as extraction.py lines 886-889
+          test_data = {
+              "2026-04": {
+                  "article_count": 2,
+                  "articles": [
+                      {"title": "Test article 1", "url": "https://example.com/1", "date": "2026-04-05"},
+                      {"title": "Test article 2", "url": "https://example.com/2", "date": "2026-04-04"},
+                  ]
+              }
+          }
+
+          fname = "test_domain_com_results.json"
+          path  = os.path.join(OUTPUT_DIR, fname)
+          with open(path, "w", encoding="utf-8") as f:
+              json.dump(test_data, f, indent=2)
+
+          print(f"[write test] Written to: {path}")
+          print(f"[write test] Absolute  : {os.path.abspath(path)}")
+          print(f"[write test] File size : {os.path.getsize(path)} bytes")
+          EOF
+
+      # ── DIAGNOSTIC 3: Can merge_results() find what extraction.py wrote? ──
+      - name: Merge test (mimics run_pipeline.py merge_results)
+        run: |
+          python - <<'EOF'
+          import json
+          from pathlib import Path
+
+          OUTPUT_DIR = "extraction_output"
+          output_path = Path(OUTPUT_DIR)
+
+          print("=== Scanning:", output_path.resolve())
+          print("=== Files found:")
+          for f in sorted(output_path.iterdir()):
+              print("   ", f, "->", f.stat().st_size, "bytes")
+
+          all_articles = []
+          for fpath in sorted(output_path.glob("*_results.json")):
+              print(f"\n=== Reading: {fpath}")
+              data = json.loads(fpath.read_text(encoding="utf-8"))
+              print(f"    Top-level keys: {list(data.keys())}")
+              for month, month_data in data.items():
+                  arts = month_data.get("articles", [])
+                  print(f"    Month {month}: {len(arts)} articles")
+                  all_articles.extend(arts)
+
+          print(f"\n=== TOTAL articles merged: {len(all_articles)}")
+          if len(all_articles) == 0:
+              print("!!! MERGE RETURNED 0 — this is the bug !!!")
+          EOF
+
+      # ── DIAGNOSTIC 4: Show full tree of ALL files after the run ───────────
+      - name: Full file tree after run
+        if: always()
+        run: |
+          echo "=== Full workspace file tree ==="
+          find $GITHUB_WORKSPACE -not -path "*/.git/*" -type f | sort
+
+          echo ""
+          echo "=== extraction_output/ in detail ==="
+          ls -lh $GITHUB_WORKSPACE/extraction_output/ || echo "MISSING"
+
+          echo ""
+          echo "=== First 50 lines of any *_results.json ==="
+          for f in $GITHUB_WORKSPACE/extraction_output/*_results.json; do
+            echo "--- $f ---"
+            head -50 "$f"
+            echo ""
+          done
+
+      # ── DIAGNOSTIC 5: Run the REAL pipeline (1 domain, to keep it fast) ───
+      # Comment this out if you want to test merge-only first.
+      # Uncomment to run a real single-domain extraction and trace what happens.
+      #
+      # - name: Run pipeline (1 domain only)
+      #   run: python run_pipeline.py --limit 1 --no-summarize
+
+      # ── UPLOAD everything so you can inspect offline ───────────────────────
+      - name: Upload all outputs as artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: diagnose-output-${{ github.run_number }}
+          path: |
+            ${{ github.workspace }}/extraction_output/
+            ${{ github.workspace }}/data/
+          retention-days: 7
+
+      # ── COMMIT the test file so we can see git behaviour too ──────────────
+      - name: Commit test outputs
+        if: always()
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          mkdir -p $GITHUB_WORKSPACE/extraction_output
+
+          git add -f $GITHUB_WORKSPACE/extraction_output/
+          git add -f $GITHUB_WORKSPACE/data/ || true
+
+          echo "=== GIT STATUS ==="
+          git status
+
+          echo "=== FILES STAGED ==="
+          git diff --staged --name-only
+
+          if git diff --staged --quiet; then
+            echo "Nothing to commit."
+          else
+            git commit -m "diag: file-write trace run #${{ github.run_number }} [skip ci]"
+            git push origin HEAD
+            echo "Pushed."
+          fi
