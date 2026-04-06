@@ -848,10 +848,6 @@ async def main(
     failed = {}
     total  = len(work)
 
-    for old_f in Path(OUTPUT_DIR).glob("*_results.json"):
-        old_f.unlink()
-    log.info(f"[init] Cleared previous results from {OUTPUT_DIR}/")
-
     print(f"\n{'='*65}")
     print(f"EXTRACTION  --  query={query!r}")
     print(f"  Date window : last {days} days")
