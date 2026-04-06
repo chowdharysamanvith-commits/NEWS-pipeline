@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 180
 
     permissions:
-      contents: write       # ← required to git push back to repo
+      contents: write
 
     defaults:
       run:
@@ -40,31 +40,31 @@ jobs:
 
     steps:
 
-      # ── 1. Checkout ──────────────────────────────────────────────────────────
+      # ── 1. Checkout ─────────────────────────────────────────
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          persist-credentials: true   # keeps the token for the later git push
+          persist-credentials: true
 
-      # ── 2. Python ────────────────────────────────────────────────────────────
+      # ── 2. Python ───────────────────────────────────────────
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
 
-      # ── 3. Dependencies ──────────────────────────────────────────────────────
+      # ── 3. Dependencies ─────────────────────────────────────
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ── 4. Playwright ────────────────────────────────────────────────────────
+      # ── 4. Playwright ───────────────────────────────────────
       - name: Install Playwright + Chromium
         run: playwright install chromium --with-deps
 
-      # ── 5. Pre-run sanity check ──────────────────────────────────────────────
+      # ── 5. Pre-run Debug ────────────────────────────────────
       - name: Verify workspace before run
         run: |
           echo "=== Working directory ==="
@@ -76,27 +76,27 @@ jobs:
           echo "=== PYTHONPATH ==="
           echo $PYTHONPATH
 
-      # ── 6. Run pipeline ──────────────────────────────────────────────────────
+      # ── 6. Run Pipeline ─────────────────────────────────────
       - name: Run all modalities
         run: python run_all_modalities.py
 
-      # ── 7. Post-run debug — confirm files were written ───────────────────────
+      # ── 7. Post-run Debug ───────────────────────────────────
       - name: Debug outputs after run
-        if: always()    # run even if pipeline step failed
+        if: always()
         run: |
-          echo "=== ALL JSON files written anywhere under workspace ==="
+          echo "=== ALL JSON files written ==="
           find $GITHUB_WORKSPACE -name "*.json" | sort
           echo ""
-          echo "=== extraction_output/ contents ==="
-          ls -lh $GITHUB_WORKSPACE/extraction_output/ || echo "(directory missing)"
+          echo "=== extraction_output ==="
+          ls -lh $GITHUB_WORKSPACE/extraction_output/ || echo "(missing)"
           echo ""
-          echo "=== data/ contents ==="
-          ls -lh $GITHUB_WORKSPACE/data/ || echo "(directory missing)"
+          echo "=== data ==="
+          ls -lh $GITHUB_WORKSPACE/data/ || echo "(missing)"
           echo ""
-          echo "=== Any *_results.json files ==="
+          echo "=== *_results.json ==="
           find $GITHUB_WORKSPACE -name "*_results.json" | sort || echo "none found"
 
-      # ── 8. Upload artifacts (always, so you can inspect even on failure) ─────
+      # ── 8. Upload Artifacts ─────────────────────────────────
       - name: Archive pipeline outputs
         uses: actions/upload-artifact@v4
         if: always()
@@ -107,50 +107,40 @@ jobs:
             ${{ github.workspace }}/extraction_output/
           retention-days: 90
 
-      # ── 9. Commit results back to repo ───────────────────────────────────────
-      #
-      #   KEY FIXES vs the old step:
-      #     • Explicit absolute paths ($GITHUB_WORKSPACE/...) so git never
-      #       misses files written by Python to a relative path.
-      #     • `git add -f` to force-add files that may be in .gitignore
-      #       (extraction_output/*.json is commonly gitignored).
-      #     • `|| true` on every add so a missing dir never aborts the step.
-      #     • Empty-dir guard: create placeholder .gitkeep so git tracks the
-      #       folder even when all *_results.json were "empty" runs.
-      #
+      # ── 9. Commit & Push (FIXED) ────────────────────────────
       - name: Commit results to repo
-        if: always()    # commit whatever exists, even partial results
+        if: always()
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Make sure the output directories exist so git add never errors
           mkdir -p $GITHUB_WORKSPACE/extraction_output
           mkdir -p $GITHUB_WORKSPACE/data
           mkdir -p $GITHUB_WORKSPACE/logs
 
-          # Keep folders trackable even when empty
           touch $GITHUB_WORKSPACE/extraction_output/.gitkeep
           touch $GITHUB_WORKSPACE/data/.gitkeep
           touch $GITHUB_WORKSPACE/logs/.gitkeep
 
-          # Force-add (-f bypasses .gitignore for these paths)
           git add -f $GITHUB_WORKSPACE/extraction_output/ || true
-          git add -f $GITHUB_WORKSPACE/data/              || true
-          git add -f $GITHUB_WORKSPACE/logs/              || true
+          git add -f $GITHUB_WORKSPACE/data/ || true
+          git add -f $GITHUB_WORKSPACE/logs/ || true
 
           echo "=== GIT STATUS ==="
           git status
 
-          echo "=== GIT DIFF STAGED (file list) ==="
+          echo "=== STAGED FILES ==="
           git diff --staged --name-only
 
-          # Only commit if something actually changed
           if git diff --staged --quiet; then
-            echo "No changes to commit — outputs unchanged since last run."
+            echo "No changes to commit."
           else
             DATE=$(date -u +"%Y-%m-%d %H:%M UTC")
             git commit -m "chore: pipeline results ${DATE} [skip ci]"
-            git push origin HEAD
-            echo "Pushed successfully."
+
+            # 🔥 FIX: avoid push rejection
+            git pull origin main --rebase || true
+
+            git push origin HEAD:main
+            echo "Push successful."
           fi
