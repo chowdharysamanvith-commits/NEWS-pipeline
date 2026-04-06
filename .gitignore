@@ -21,13 +21,6 @@ env/
 # Playwright
 playwright/.local-browsers/
 
-
-# Keep the directory itself
-!extraction_output/.gitkeep
-
-# Archive snapshots — committed via Actions
-# (allow data/ to be tracked)
-
 # OS
 .DS_Store
 Thumbs.db
