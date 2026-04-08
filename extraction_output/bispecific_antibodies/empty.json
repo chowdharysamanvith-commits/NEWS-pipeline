@@ -59,6 +59,10 @@
     "name": "Www",
     "reason": "0 articles in last 7 days"
   },
+  "biospectrumasia.com": {
+    "name": "Biospectrumasia",
+    "reason": "0 articles in last 7 days"
+  },
   "asia.nikkei.com": {
     "name": "Asia",
     "reason": "0 articles in last 7 days"
@@ -66,5 +70,9 @@
   "medicalxpress.com": {
     "name": "Medicalxpress",
     "reason": "extract_fn returned 0 articles after scrolling"
+  },
+  "drugdiscoverynews.com": {
+    "name": "Drugdiscoverynews",
+    "reason": "0 articles in last 7 days"
   }
 }
