@@ -23,10 +23,6 @@
     "name": "Labiotech",
     "reason": "0 articles in last 7 days"
   },
-  "lifescienceleader.com": {
-    "name": "Lifescienceleader",
-    "reason": "0 articles in last 7 days"
-  },
   "pharmamanufacturing.com": {
     "name": "Pharmamanufacturing",
     "reason": "0 articles in last 7 days"
@@ -51,6 +47,10 @@
     "name": "Sciencedaily",
     "reason": "0 articles in last 7 days"
   },
+  "pharmashots.com": {
+    "name": "Pharmashots",
+    "reason": "0 articles in last 7 days"
+  },
   "drughunter.com": {
     "name": "Drughunter",
     "reason": "extract_fn returned 0 articles after scrolling"
@@ -70,9 +70,5 @@
   "medicalxpress.com": {
     "name": "Medicalxpress",
     "reason": "extract_fn returned 0 articles after scrolling"
-  },
-  "drugdiscoverynews.com": {
-    "name": "Drugdiscoverynews",
-    "reason": "0 articles in last 7 days"
   }
 }
