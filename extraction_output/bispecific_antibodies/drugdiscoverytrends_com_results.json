@@ -1,7 +1,14 @@
 {
   "April 2026": {
-    "article_count": 1,
+    "article_count": 2,
     "articles": [
+      {
+        "title": "How Immuto Scientific pairs AI and mass spec for a step change in protein structure throughput",
+        "url": "https://www.drugdiscoverytrends.com/how-immuto-scientific-pairs-ai-and-mass-spec-for-a-step-change-in-protein-structure-throughput/",
+        "date": "April 15th, 2026",
+        "tag": null,
+        "text": ""
+      },
       {
         "title": "Amazon Bio Discovery cut MSK antibody design from a year to weeks, AWS says",
         "url": "https://www.drugdiscoverytrends.com/amazon-bio-discovery-cut-msk-antibody-design-from-a-year-to-weeks-aws-says/",

@@ -15,6 +15,10 @@
     "name": "Labiotech",
     "reason": "0 articles in last 7 days"
   },
+  "pharmabiz.com": {
+    "name": "Pharmabiz",
+    "reason": "0 articles in last 7 days"
+  },
   "pharmamanufacturing.com": {
     "name": "Pharmamanufacturing",
     "reason": "0 articles in last 7 days"
@@ -41,7 +45,7 @@
   },
   "pharmashots.com": {
     "name": "Pharmashots",
-    "reason": "0 articles in last 7 days"
+    "reason": "extract_fn returned 0 articles after scrolling"
   },
   "drughunter.com": {
     "name": "Drughunter",
@@ -53,7 +57,7 @@
   },
   "biospectrumasia.com": {
     "name": "Biospectrumasia",
-    "reason": "0 articles in last 7 days"
+    "reason": "extract_fn returned 0 articles after scrolling"
   },
   "asia.nikkei.com": {
     "name": "Asia",
@@ -62,5 +66,13 @@
   "medicalxpress.com": {
     "name": "Medicalxpress",
     "reason": "extract_fn returned 0 articles after scrolling"
+  },
+  "onclive.com": {
+    "name": "Onclive",
+    "reason": "0 articles in last 7 days"
+  },
+  "fiercebiotech.com": {
+    "name": "Fiercebiotech",
+    "reason": "0 articles in last 7 days"
   }
 }
