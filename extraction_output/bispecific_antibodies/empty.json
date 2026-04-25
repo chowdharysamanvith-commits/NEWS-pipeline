@@ -11,8 +11,8 @@
     "name": "Lifescienceleader",
     "reason": "0 articles in last 7 days"
   },
-  "pharmamanufacturing.com": {
-    "name": "Pharmamanufacturing",
+  "pharmabiz.com": {
+    "name": "Pharmabiz",
     "reason": "0 articles in last 7 days"
   },
   "weizmann.ac.il": {
@@ -37,7 +37,7 @@
   },
   "pharmashots.com": {
     "name": "Pharmashots",
-    "reason": "extract_fn returned 0 articles after scrolling"
+    "reason": "0 articles in last 7 days"
   },
   "drughunter.com": {
     "name": "Drughunter",
@@ -46,10 +46,6 @@
   "www.pharmaceuticalcommerce.com": {
     "name": "Www",
     "reason": "0 articles in last 7 days"
-  },
-  "biospectrumasia.com": {
-    "name": "Biospectrumasia",
-    "reason": "extract_fn returned 0 articles after scrolling"
   },
   "asia.nikkei.com": {
     "name": "Asia",
@@ -61,10 +57,6 @@
   },
   "onclive.com": {
     "name": "Onclive",
-    "reason": "0 articles in last 7 days"
-  },
-  "fiercebiotech.com": {
-    "name": "Fiercebiotech",
     "reason": "0 articles in last 7 days"
   }
 }
