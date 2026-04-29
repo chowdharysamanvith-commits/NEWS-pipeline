@@ -23,6 +23,10 @@
     "name": "Healio",
     "reason": "0 articles in last 7 days"
   },
+  "labiotech.eu": {
+    "name": "Labiotech",
+    "reason": "0 articles in last 7 days"
+  },
   "lifescienceleader.com": {
     "name": "Lifescienceleader",
     "reason": "0 articles in last 7 days"
@@ -53,7 +57,7 @@
   },
   "pharmashots.com": {
     "name": "Pharmashots",
-    "reason": "extract_fn returned 0 articles after scrolling"
+    "reason": "0 articles in last 7 days"
   },
   "drughunter.com": {
     "name": "Drughunter",
@@ -65,7 +69,7 @@
   },
   "biospectrumasia.com": {
     "name": "Biospectrumasia",
-    "reason": "extract_fn returned 0 articles after scrolling"
+    "reason": "0 articles in last 7 days"
   },
   "asia.nikkei.com": {
     "name": "Asia",
@@ -77,6 +81,6 @@
   },
   "onclive.com": {
     "name": "Onclive",
-    "reason": "0 articles in last 7 days"
+    "reason": "extract_fn returned 0 articles after scrolling"
   }
 }
