@@ -1,14 +1,6 @@
 {
-  "biopharmadive.com": {
-    "name": "Biopharmadive",
-    "reason": "0 articles in last 7 days"
-  },
   "dddmag.com": {
     "name": "Dddmag",
-    "reason": "0 articles in last 7 days"
-  },
-  "statnews.com": {
-    "name": "Statnews",
     "reason": "0 articles in last 7 days"
   },
   "drug-dev.com": {
@@ -29,10 +21,6 @@
   },
   "lifescienceleader.com": {
     "name": "Lifescienceleader",
-    "reason": "0 articles in last 7 days"
-  },
-  "pharmabiz.com": {
-    "name": "Pharmabiz",
     "reason": "0 articles in last 7 days"
   },
   "weizmann.ac.il": {
@@ -57,7 +45,7 @@
   },
   "pharmashots.com": {
     "name": "Pharmashots",
-    "reason": "0 articles in last 7 days"
+    "reason": "extract_fn returned 0 articles after scrolling"
   },
   "drughunter.com": {
     "name": "Drughunter",
@@ -69,7 +57,7 @@
   },
   "biospectrumasia.com": {
     "name": "Biospectrumasia",
-    "reason": "0 articles in last 7 days"
+    "reason": "extract_fn returned 0 articles after scrolling"
   },
   "asia.nikkei.com": {
     "name": "Asia",
@@ -81,6 +69,10 @@
   },
   "onclive.com": {
     "name": "Onclive",
-    "reason": "extract_fn returned 0 articles after scrolling"
+    "reason": "0 articles in last 7 days"
+  },
+  "drugdiscoverynews.com": {
+    "name": "Drugdiscoverynews",
+    "reason": "0 articles in last 7 days"
   }
 }
