@@ -1,8 +1,4 @@
 {
-  "dddmag.com": {
-    "name": "Dddmag",
-    "reason": "0 articles in last 7 days"
-  },
   "statnews.com": {
     "name": "Statnews",
     "reason": "0 articles in last 7 days"
@@ -11,32 +7,16 @@
     "name": "Drug-dev",
     "reason": "0 articles in last 7 days"
   },
-  "drugdiscoverytrends.com": {
-    "name": "Drugdiscoverytrends",
-    "reason": "0 articles in last 7 days"
-  },
   "healio.com": {
     "name": "Healio",
-    "reason": "0 articles in last 7 days"
-  },
-  "labiotech.eu": {
-    "name": "Labiotech",
     "reason": "0 articles in last 7 days"
   },
   "pharmamanufacturing.com": {
     "name": "Pharmamanufacturing",
     "reason": "0 articles in last 7 days"
   },
-  "the-scientist.com": {
-    "name": "The-scientist",
-    "reason": "0 articles in last 7 days"
-  },
   "weizmann.ac.il": {
     "name": "Weizmann",
-    "reason": "0 articles in last 7 days"
-  },
-  "www.pharmavoice.com": {
-    "name": "Www",
     "reason": "0 articles in last 7 days"
   },
   "www.pharmaceutical-technology.com": {
@@ -63,6 +43,10 @@
     "name": "Www",
     "reason": "0 articles in last 7 days"
   },
+  "biospectrumasia.com": {
+    "name": "Biospectrumasia",
+    "reason": "0 articles in last 7 days"
+  },
   "asia.nikkei.com": {
     "name": "Asia",
     "reason": "0 articles in last 7 days"
@@ -73,6 +57,6 @@
   },
   "onclive.com": {
     "name": "Onclive",
-    "reason": "0 articles in last 7 days"
+    "reason": "extract_fn returned 0 articles after scrolling"
   }
 }
