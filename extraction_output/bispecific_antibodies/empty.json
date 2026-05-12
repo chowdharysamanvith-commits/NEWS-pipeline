@@ -1,4 +1,8 @@
 {
+  "dddmag.com": {
+    "name": "Dddmag",
+    "reason": "extract_fn returned 0 articles after scrolling"
+  },
   "statnews.com": {
     "name": "Statnews",
     "reason": "0 articles in last 7 days"
@@ -6,6 +10,10 @@
   "drug-dev.com": {
     "name": "Drug-dev",
     "reason": "0 articles in last 7 days"
+  },
+  "drugdiscoverytrends.com": {
+    "name": "Drugdiscoverytrends",
+    "reason": "extract_fn returned 0 articles after scrolling"
   },
   "healio.com": {
     "name": "Healio",
@@ -33,7 +41,7 @@
   },
   "pharmashots.com": {
     "name": "Pharmashots",
-    "reason": "0 articles in last 7 days"
+    "reason": "extract_fn returned 0 articles after scrolling"
   },
   "drughunter.com": {
     "name": "Drughunter",
@@ -45,7 +53,7 @@
   },
   "biospectrumasia.com": {
     "name": "Biospectrumasia",
-    "reason": "0 articles in last 7 days"
+    "reason": "extract_fn returned 0 articles after scrolling"
   },
   "asia.nikkei.com": {
     "name": "Asia",
@@ -54,9 +62,5 @@
   "medicalxpress.com": {
     "name": "Medicalxpress",
     "reason": "extract_fn returned 0 articles after scrolling"
-  },
-  "fiercebiotech.com": {
-    "name": "Fiercebiotech",
-    "reason": "0 articles in last 7 days"
   }
 }
