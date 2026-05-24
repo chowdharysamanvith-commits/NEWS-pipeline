@@ -53,7 +53,7 @@
   },
   "pharmashots.com": {
     "name": "Pharmashots",
-    "reason": "0 articles in last 7 days"
+    "reason": "extract_fn returned 0 articles after scrolling"
   },
   "drughunter.com": {
     "name": "Drughunter",
@@ -65,7 +65,7 @@
   },
   "biospectrumasia.com": {
     "name": "Biospectrumasia",
-    "reason": "0 articles in last 7 days"
+    "reason": "extract_fn returned 0 articles after scrolling"
   },
   "asia.nikkei.com": {
     "name": "Asia",
