@@ -1,4 +1,8 @@
 {
+  "biopharmadive.com": {
+    "name": "Biopharmadive",
+    "reason": "0 articles in last 7 days"
+  },
   "dddmag.com": {
     "name": "Dddmag",
     "reason": "extract_fn returned 0 articles after scrolling"
