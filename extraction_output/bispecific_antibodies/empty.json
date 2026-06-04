@@ -3,10 +3,6 @@
     "name": "Dddmag",
     "reason": "extract_fn returned 0 articles after scrolling"
   },
-  "drug-dev.com": {
-    "name": "Drug-dev",
-    "reason": "0 articles in last 7 days"
-  },
   "drugdiscoverytrends.com": {
     "name": "Drugdiscoverytrends",
     "reason": "extract_fn returned 0 articles after scrolling"
@@ -24,10 +20,6 @@
     "reason": "0 articles in last 7 days"
   },
   "www.pharmavoice.com": {
-    "name": "Www",
-    "reason": "0 articles in last 7 days"
-  },
-  "www.pharmaceutical-technology.com": {
     "name": "Www",
     "reason": "0 articles in last 7 days"
   },
@@ -61,10 +53,6 @@
   },
   "onclive.com": {
     "name": "Onclive",
-    "reason": "0 articles in last 7 days"
-  },
-  "drugdiscoverynews.com": {
-    "name": "Drugdiscoverynews",
     "reason": "0 articles in last 7 days"
   }
 }
