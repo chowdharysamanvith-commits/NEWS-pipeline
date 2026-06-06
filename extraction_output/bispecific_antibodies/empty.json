@@ -7,8 +7,8 @@
     "name": "Drugdiscoverytrends",
     "reason": "extract_fn returned 0 articles after scrolling"
   },
-  "labiotech.eu": {
-    "name": "Labiotech",
+  "healio.com": {
+    "name": "Healio",
     "reason": "0 articles in last 7 days"
   },
   "pharmamanufacturing.com": {
