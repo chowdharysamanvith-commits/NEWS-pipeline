@@ -15,6 +15,14 @@
     "name": "Healio",
     "reason": "0 articles in last 7 days"
   },
+  "lifescienceleader.com": {
+    "name": "Lifescienceleader",
+    "reason": "0 articles in last 7 days"
+  },
+  "pharmabiz.com": {
+    "name": "Pharmabiz",
+    "reason": "0 articles in last 7 days"
+  },
   "pharmamanufacturing.com": {
     "name": "Pharmamanufacturing",
     "reason": "0 articles in last 7 days"
@@ -31,10 +39,6 @@
     "name": "Sciencedaily",
     "reason": "0 articles in last 7 days"
   },
-  "pharmashots.com": {
-    "name": "Pharmashots",
-    "reason": "extract_fn returned 0 articles after scrolling"
-  },
   "drughunter.com": {
     "name": "Drughunter",
     "reason": "extract_fn returned 0 articles after scrolling"
@@ -45,7 +49,7 @@
   },
   "biospectrumasia.com": {
     "name": "Biospectrumasia",
-    "reason": "extract_fn returned 0 articles after scrolling"
+    "reason": "0 articles in last 7 days"
   },
   "asia.nikkei.com": {
     "name": "Asia",
@@ -54,9 +58,5 @@
   "medicalxpress.com": {
     "name": "Medicalxpress",
     "reason": "extract_fn returned 0 articles after scrolling"
-  },
-  "onclive.com": {
-    "name": "Onclive",
-    "reason": "0 articles in last 7 days"
   }
 }
