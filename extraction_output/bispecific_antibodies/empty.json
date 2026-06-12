@@ -19,12 +19,12 @@
     "name": "Healio",
     "reason": "0 articles in last 7 days"
   },
-  "lifescienceleader.com": {
-    "name": "Lifescienceleader",
+  "labiotech.eu": {
+    "name": "Labiotech",
     "reason": "0 articles in last 7 days"
   },
-  "pharmabiz.com": {
-    "name": "Pharmabiz",
+  "lifescienceleader.com": {
+    "name": "Lifescienceleader",
     "reason": "0 articles in last 7 days"
   },
   "pharmamanufacturing.com": {
@@ -33,10 +33,6 @@
   },
   "weizmann.ac.il": {
     "name": "Weizmann",
-    "reason": "0 articles in last 7 days"
-  },
-  "www.pharmavoice.com": {
-    "name": "Www",
     "reason": "0 articles in last 7 days"
   },
   "biopharmatrend.com": {
@@ -70,9 +66,5 @@
   "medicalxpress.com": {
     "name": "Medicalxpress",
     "reason": "extract_fn returned 0 articles after scrolling"
-  },
-  "www.cancernetwork.com": {
-    "name": "Www",
-    "reason": "0 articles in last 7 days"
   }
 }
