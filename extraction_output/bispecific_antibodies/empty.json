@@ -7,6 +7,10 @@
     "name": "Statnews",
     "reason": "0 articles in last 7 days"
   },
+  "drug-dev.com": {
+    "name": "Drug-dev",
+    "reason": "0 articles in last 7 days"
+  },
   "drugdiscoverytrends.com": {
     "name": "Drugdiscoverytrends",
     "reason": "extract_fn returned 0 articles after scrolling"
@@ -39,6 +43,10 @@
     "name": "Sciencedaily",
     "reason": "0 articles in last 7 days"
   },
+  "pharmashots.com": {
+    "name": "Pharmashots",
+    "reason": "0 articles in last 7 days"
+  },
   "drughunter.com": {
     "name": "Drughunter",
     "reason": "extract_fn returned 0 articles after scrolling"
@@ -57,6 +65,10 @@
   },
   "medicalxpress.com": {
     "name": "Medicalxpress",
+    "reason": "extract_fn returned 0 articles after scrolling"
+  },
+  "onclive.com": {
+    "name": "Onclive",
     "reason": "extract_fn returned 0 articles after scrolling"
   }
 }
