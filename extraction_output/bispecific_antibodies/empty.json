@@ -69,6 +69,10 @@
   },
   "onclive.com": {
     "name": "Onclive",
-    "reason": "extract_fn returned 0 articles after scrolling"
+    "reason": "0 articles in last 7 days"
+  },
+  "fiercebiotech.com": {
+    "name": "Fiercebiotech",
+    "reason": "0 articles in last 7 days"
   }
 }
