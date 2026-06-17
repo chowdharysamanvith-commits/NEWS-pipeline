@@ -31,6 +31,10 @@
     "name": "Pharmamanufacturing",
     "reason": "0 articles in last 7 days"
   },
+  "the-scientist.com": {
+    "name": "The-scientist",
+    "reason": "0 articles in last 7 days"
+  },
   "weizmann.ac.il": {
     "name": "Weizmann",
     "reason": "0 articles in last 7 days"
@@ -41,6 +45,10 @@
   },
   "sciencedaily.com": {
     "name": "Sciencedaily",
+    "reason": "0 articles in last 7 days"
+  },
+  "pharmashots.com": {
+    "name": "Pharmashots",
     "reason": "0 articles in last 7 days"
   },
   "drughunter.com": {
@@ -65,6 +73,10 @@
   },
   "onclive.com": {
     "name": "Onclive",
+    "reason": "0 articles in last 7 days"
+  },
+  "fiercebiotech.com": {
+    "name": "Fiercebiotech",
     "reason": "0 articles in last 7 days"
   }
 }
