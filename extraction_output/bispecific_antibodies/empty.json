@@ -23,10 +23,6 @@
     "name": "Labiotech",
     "reason": "0 articles in last 7 days"
   },
-  "lifescienceleader.com": {
-    "name": "Lifescienceleader",
-    "reason": "0 articles in last 7 days"
-  },
   "pharmamanufacturing.com": {
     "name": "Pharmamanufacturing",
     "reason": "0 articles in last 7 days"
@@ -37,6 +33,10 @@
   },
   "weizmann.ac.il": {
     "name": "Weizmann",
+    "reason": "0 articles in last 7 days"
+  },
+  "www.pharmavoice.com": {
+    "name": "Www",
     "reason": "0 articles in last 7 days"
   },
   "biopharmatrend.com": {
@@ -77,6 +77,6 @@
   },
   "fiercebiotech.com": {
     "name": "Fiercebiotech",
-    "reason": "0 articles in last 7 days"
+    "reason": "extract_fn returned 0 articles after scrolling"
   }
 }
