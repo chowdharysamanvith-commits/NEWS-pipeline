@@ -51,6 +51,10 @@
     "name": "Sciencedaily",
     "reason": "0 articles in last 7 days"
   },
+  "pharmashots.com": {
+    "name": "Pharmashots",
+    "reason": "0 articles in last 7 days"
+  },
   "drughunter.com": {
     "name": "Drughunter",
     "reason": "extract_fn returned 0 articles after scrolling"
