@@ -29,7 +29,7 @@
   },
   "pharmamanufacturing.com": {
     "name": "Pharmamanufacturing",
-    "reason": "0 articles in last 7 days"
+    "reason": "extract_fn returned 0 articles after scrolling"
   },
   "the-scientist.com": {
     "name": "The-scientist",
@@ -74,9 +74,5 @@
   "onclive.com": {
     "name": "Onclive",
     "reason": "0 articles in last 7 days"
-  },
-  "fiercebiotech.com": {
-    "name": "Fiercebiotech",
-    "reason": "extract_fn returned 0 articles after scrolling"
   }
 }
