@@ -23,6 +23,10 @@
     "name": "Healio",
     "reason": "0 articles in last 7 days"
   },
+  "lifescienceleader.com": {
+    "name": "Lifescienceleader",
+    "reason": "0 articles in last 7 days"
+  },
   "pharmabiz.com": {
     "name": "Pharmabiz",
     "reason": "0 articles in last 7 days"
@@ -58,6 +62,10 @@
   "drughunter.com": {
     "name": "Drughunter",
     "reason": "extract_fn returned 0 articles after scrolling"
+  },
+  "www.pharmaceuticalcommerce.com": {
+    "name": "Www",
+    "reason": "0 articles in last 7 days"
   },
   "biospectrumasia.com": {
     "name": "Biospectrumasia",
