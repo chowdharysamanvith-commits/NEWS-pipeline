@@ -35,10 +35,6 @@
     "name": "Pharmamanufacturing",
     "reason": "extract_fn returned 0 articles after scrolling"
   },
-  "the-scientist.com": {
-    "name": "The-scientist",
-    "reason": "0 articles in last 7 days"
-  },
   "weizmann.ac.il": {
     "name": "Weizmann",
     "reason": "0 articles in last 7 days"
@@ -77,6 +73,10 @@
   },
   "medicalxpress.com": {
     "name": "Medicalxpress",
+    "reason": "extract_fn returned 0 articles after scrolling"
+  },
+  "onclive.com": {
+    "name": "Onclive",
     "reason": "extract_fn returned 0 articles after scrolling"
   }
 }
