@@ -74,9 +74,5 @@
   "medicalxpress.com": {
     "name": "Medicalxpress",
     "reason": "extract_fn returned 0 articles after scrolling"
-  },
-  "onclive.com": {
-    "name": "Onclive",
-    "reason": "extract_fn returned 0 articles after scrolling"
   }
 }
