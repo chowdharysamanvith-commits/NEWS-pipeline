@@ -23,10 +23,6 @@
     "name": "Healio",
     "reason": "extract_fn returned 0 articles after scrolling"
   },
-  "labiotech.eu": {
-    "name": "Labiotech",
-    "reason": "0 articles in last 7 days"
-  },
   "pharmamanufacturing.com": {
     "name": "Pharmamanufacturing",
     "reason": "extract_fn returned 0 articles after scrolling"
