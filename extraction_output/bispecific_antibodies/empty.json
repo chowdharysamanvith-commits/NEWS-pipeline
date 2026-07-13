@@ -23,13 +23,13 @@
     "name": "Healio",
     "reason": "extract_fn returned 0 articles after scrolling"
   },
+  "lifescienceleader.com": {
+    "name": "Lifescienceleader",
+    "reason": "0 articles in last 7 days"
+  },
   "pharmamanufacturing.com": {
     "name": "Pharmamanufacturing",
     "reason": "extract_fn returned 0 articles after scrolling"
-  },
-  "the-scientist.com": {
-    "name": "The-scientist",
-    "reason": "0 articles in last 7 days"
   },
   "weizmann.ac.il": {
     "name": "Weizmann",
@@ -74,10 +74,6 @@
   "www.cancernetwork.com": {
     "name": "Www",
     "reason": "extract_fn returned 0 articles after scrolling"
-  },
-  "drugdiscoverynews.com": {
-    "name": "Drugdiscoverynews",
-    "reason": "0 articles in last 7 days"
   },
   "fiercebiotech.com": {
     "name": "Fiercebiotech",
