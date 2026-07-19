@@ -35,6 +35,10 @@
     "name": "Weizmann",
     "reason": "0 articles in last 7 days"
   },
+  "www.pharmavoice.com": {
+    "name": "Www",
+    "reason": "extract_fn returned 0 articles after scrolling"
+  },
   "biopharmatrend.com": {
     "name": "Biopharmatrend",
     "reason": "0 articles in last 7 days"
