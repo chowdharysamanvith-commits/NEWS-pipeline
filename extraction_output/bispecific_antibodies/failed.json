@@ -7,8 +7,12 @@
     "name": "Www",
     "error": "Cloudflare wall on search results page \u2014 stealth bypass insufficient"
   },
-  "onclive.com": {
-    "name": "Onclive",
+  "pharmashots.com": {
+    "name": "Pharmashots",
+    "error": "Page.evaluate: Execution context was destroyed, most likely because of a navigation"
+  },
+  "biospectrumasia.com": {
+    "name": "Biospectrumasia",
     "error": "Cloudflare wall on search results page \u2014 stealth bypass insufficient"
   },
   "drugdiscoverynews.com": {

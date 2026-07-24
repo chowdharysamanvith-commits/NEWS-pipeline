@@ -47,10 +47,6 @@
     "name": "Sciencedaily",
     "reason": "extract_fn returned 0 articles after scrolling"
   },
-  "pharmashots.com": {
-    "name": "Pharmashots",
-    "reason": "0 articles in last 7 days"
-  },
   "drughunter.com": {
     "name": "Drughunter",
     "reason": "extract_fn returned 0 articles after scrolling"
@@ -59,16 +55,16 @@
     "name": "Www",
     "reason": "extract_fn returned 0 articles after scrolling"
   },
-  "biospectrumasia.com": {
-    "name": "Biospectrumasia",
-    "reason": "0 articles in last 7 days"
-  },
   "asia.nikkei.com": {
     "name": "Asia",
     "reason": "0 articles in last 7 days"
   },
   "medicalxpress.com": {
     "name": "Medicalxpress",
+    "reason": "extract_fn returned 0 articles after scrolling"
+  },
+  "onclive.com": {
+    "name": "Onclive",
     "reason": "extract_fn returned 0 articles after scrolling"
   },
   "www.cancernetwork.com": {
