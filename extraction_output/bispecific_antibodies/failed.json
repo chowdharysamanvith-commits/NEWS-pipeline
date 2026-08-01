@@ -1,4 +1,8 @@
 {
+  "globenewswire.com": {
+    "name": "Globenewswire",
+    "error": "Page.evaluate: Execution context was destroyed, most likely because of a navigation"
+  },
   "the-scientist.com": {
     "name": "The-scientist",
     "error": "Cloudflare wall on search results page \u2014 stealth bypass insufficient"
