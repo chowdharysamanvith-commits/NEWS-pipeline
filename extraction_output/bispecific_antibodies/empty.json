@@ -75,6 +75,10 @@
     "name": "Onclive",
     "reason": "extract_fn returned 0 articles after scrolling"
   },
+  "www.cancernetwork.com": {
+    "name": "Www",
+    "reason": "extract_fn returned 0 articles after scrolling"
+  },
   "fiercebiotech.com": {
     "name": "Fiercebiotech",
     "reason": "extract_fn returned 0 articles after scrolling"
