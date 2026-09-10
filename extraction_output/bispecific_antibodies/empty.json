@@ -23,6 +23,10 @@
     "name": "Healio",
     "reason": "extract_fn returned 0 articles after scrolling"
   },
+  "lifescienceleader.com": {
+    "name": "Lifescienceleader",
+    "reason": "0 articles in last 7 days"
+  },
   "pharmamanufacturing.com": {
     "name": "Pharmamanufacturing",
     "reason": "extract_fn returned 0 articles after scrolling"
