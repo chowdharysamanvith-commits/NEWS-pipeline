@@ -63,6 +63,10 @@
     "name": "Www",
     "reason": "extract_fn returned 0 articles after scrolling"
   },
+  "biospectrumasia.com": {
+    "name": "Biospectrumasia",
+    "reason": "0 articles in last 7 days"
+  },
   "asia.nikkei.com": {
     "name": "Asia",
     "reason": "0 articles in last 7 days"
