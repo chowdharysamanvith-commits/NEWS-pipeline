@@ -1,14 +1,10 @@
 {
-  "the-scientist.com": {
-    "name": "The-scientist",
-    "error": "Cloudflare wall on search results page \u2014 stealth bypass insufficient"
-  },
   "www.pharmaceutical-technology.com": {
     "name": "Www",
     "error": "Cloudflare wall on search results page \u2014 stealth bypass insufficient"
   },
-  "drugdiscoverynews.com": {
-    "name": "Drugdiscoverynews",
+  "fiercebiotech.com": {
+    "name": "Fiercebiotech",
     "error": "Cloudflare wall on search results page \u2014 stealth bypass insufficient"
   }
 }
