@@ -3,6 +3,10 @@
     "name": "The-scientist",
     "error": "Cloudflare wall on search results page \u2014 stealth bypass insufficient"
   },
+  "weizmann.ac.il": {
+    "name": "Weizmann",
+    "error": "Cloudflare wall on search results page \u2014 stealth bypass insufficient"
+  },
   "www.pharmaceutical-technology.com": {
     "name": "Www",
     "error": "Cloudflare wall on search results page \u2014 stealth bypass insufficient"
